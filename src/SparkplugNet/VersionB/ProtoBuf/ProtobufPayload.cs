@@ -23,7 +23,7 @@ namespace SparkplugNet.VersionB.ProtoBuf
         [global::ProtoBuf.ProtoMember(2, Name = @"metrics")]
         public global::System.Collections.Generic.List<Metric> Metrics { get; set; } = new global::System.Collections.Generic.List<Metric>();
 
-        [global::ProtoBuf.ProtoMember(3, Name = @"seq")]
+        [global::ProtoBuf.ProtoMember(3, Name = @"seq", IsRequired = true)]
         public ulong Seq { get; set; }
 
         [global::ProtoBuf.ProtoMember(4, Name = @"uuid")]
