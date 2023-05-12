@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="3.0.0-dev-01998" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Goodtech\Goodtech.csproj" />
+      <ProjectReference Include="..\SparkplugNet\SparkplugNet.csproj" />
+    </ItemGroup>
+
+</Project>

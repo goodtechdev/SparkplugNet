@@ -389,7 +389,92 @@ public abstract partial class SparkplugNodeBase<T> : SparkplugBase<T> where T : 
             }
         }
     }
+    
+    /// <summary>
+    /// Publishes data to the MQTT broker.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown if the options are null.</exception>
+    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+    public async Task PublishNodeBirthMessage()
+    {
+        if (this.Options is null)
+        {
+            throw new ArgumentNullException(nameof(this.Options));
+        }
 
+        // Get the online message.
+        var onlineMessage = this.MessageGenerator.GetSparkPlugNodeBirthMessage<T>(
+            this.NameSpace,
+            this.Options.GroupIdentifier,
+            this.Options.EdgeNodeIdentifier,
+            this.KnownMetrics,
+            this.LastSequenceNumber,
+            this.LastSessionNumber,
+            DateTimeOffset.UtcNow);
+
+        // Publish data.
+        this.Options.CancellationToken ??= SystemCancellationToken.None;
+
+        // Debug output.
+        this.Logger?.Debug("NBIRTH Message: {@OnlineMessage}.", onlineMessage);
+
+        // Increment the sequence number.
+        this.IncrementLastSequenceNumber();
+
+        // Publish the message.
+        await this.Client.PublishAsync(onlineMessage, this.Options.CancellationToken.Value);
+
+        if (this.Options.PublishKnownDeviceMetricsOnReconnect)
+        {
+            foreach (var device in this.KnownDevices)
+            {
+                await this.PublishDeviceBirthMessage(device.Value.Metrics, device.Key);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Publishes data to the MQTT broker.
+    /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown if the options are null.</exception>
+    /// <returns>A <see cref="Task"/> representing any asynchronous operation.</returns>
+    public async Task PublishNodeBirthMessage(List<T> knownMetrics)
+    {
+        if (this.Options is null)
+        {
+            throw new ArgumentNullException(nameof(this.Options));
+        }
+
+        // Get the online message.
+        var onlineMessage = this.MessageGenerator.GetSparkPlugNodeBirthMessage<T>(
+            this.NameSpace,
+            this.Options.GroupIdentifier,
+            this.Options.EdgeNodeIdentifier,
+            knownMetrics,
+            this.LastSequenceNumber,
+            this.LastSessionNumber,
+            DateTimeOffset.UtcNow);
+
+        // Publish data.
+        this.Options.CancellationToken ??= SystemCancellationToken.None;
+
+        // Debug output.
+        this.Logger?.Debug("NBIRTH Message: {@OnlineMessage}.", onlineMessage);
+
+        // Increment the sequence number.
+        this.IncrementLastSequenceNumber();
+
+        // Publish the message.
+        await this.Client.PublishAsync(onlineMessage, this.Options.CancellationToken.Value);
+
+        if (this.Options.PublishKnownDeviceMetricsOnReconnect)
+        {
+            foreach (var device in this.KnownDevices)
+            {
+                await this.PublishDeviceBirthMessage(device.Value.Metrics, device.Key);
+            }
+        }
+    }
     /// <summary>
     /// Subscribes the client to the node subscribe topics.
     /// </summary>
