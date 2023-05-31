@@ -31,7 +31,7 @@ public class SparkplugNodeOptions : SparkplugBaseOptions
     /// <summary>
     /// The default option to publish known device metrics on reconnect.
     /// </summary>
-    public const bool DefaultPublishKnownDeviceMetricsOnReconnect = true;
+    public const bool DefaultPublishKnownDeviceMetricsOnReconnect = false;
 
     /// <inheritdoc cref="SparkplugBaseOptions"/>
     /// <summary>
