@@ -7,6 +7,7 @@ using Goodtech.Config;
 using Goodtech.Connectors;
 using Goodtech.JSON;
 using Goodtech.SparkplugB;
+using Goodtech.TrakSYS;
 using Serilog;
 using SparkplugNet.Core;
 using SparkplugNet.Core.Application;
@@ -44,7 +45,7 @@ public class Producer
     /// <exception cref="NullReferenceException">Throws an exception if some of the necessary classes weren't initialized.</exception>
     public static Task Init()
     {
-
+        Connector = new Connector();
         //Generate a configuration for this 
         _nodeConfig = ConfigHandler.GenerateAppConfiguration(Connector.GetTags(), PathKnownMetrics);
 

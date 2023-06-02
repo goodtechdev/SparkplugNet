@@ -17,4 +17,10 @@
       <ProjectReference Include="..\SparkplugNet\SparkplugNet.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Core.Api">
+        <HintPath>..\Goodtech\bin\Debug\Core.Api.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
